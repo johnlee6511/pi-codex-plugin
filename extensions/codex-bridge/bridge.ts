@@ -570,9 +570,10 @@ export function registerCodexBridge(
 	});
 
 	pi.registerCommand("codex:review", {
-		description: "Ask Codex to review based on recent pi conversation context",
+		description: "Ask Codex to review using current pi conversation context and repository files",
 		handler: async (args, ctx) => {
-			const request = args.trim() || "Review the current situation using the recent pi conversation context and give the most useful next-step feedback.";
+			const request =
+				args.trim() || "Review the current situation using the recent pi conversation context and the relevant repository files, then give the most useful next-step feedback.";
 			if (!args.trim()) {
 				primeCommandInput(ctx.ui, "/codex:review");
 				return;
@@ -582,7 +583,7 @@ export function registerCodexBridge(
 				withLanguageInstruction(
 				buildTaskPrompt(
 					ctx.sessionManager.getBranch() as PromptContextEntry[],
-					`Review the work based on the recent pi conversation context. Focus on bugs, risks, incorrect assumptions, and the most important next step.\n\nAdditional user guidance: ${request}`,
+					`Review the work based on the recent pi conversation context and inspect the repository files as needed before answering. Do not limit yourself to the current diff. Read the relevant files when the discussion mentions a plan, design, code path, or implementation detail. Focus on bugs, risks, incorrect assumptions, and the most important next step.\n\nAdditional user guidance: ${request}`,
 				),
 				request,
 				),
@@ -610,7 +611,7 @@ export function registerCodexBridge(
 	});
 
 	pi.registerCommand("codex:diff-review", {
-		description: "Run a Codex review for uncommitted changes or against a base branch",
+		description: "Run a Codex review for the current Git diff only",
 		handler: async (args, ctx) => {
 			let request: ReviewArgs;
 			try {

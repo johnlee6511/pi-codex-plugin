@@ -14,9 +14,9 @@ This plugin is for `pi` users who want a simple way to:
 - `/codex:status`
   - Check whether local Codex is installed and authenticated
 - `/codex:review`
-  - Review the current situation using recent `pi` conversation context
+  - Review the current situation using recent `pi` conversation context and repository files
 - `/codex:diff-review`
-  - Review the current Git diff
+  - Review the current Git diff only
 - `/codex:task`
   - Delegate a focused task to Codex with current `pi` context
 - `/codex:resume`
@@ -98,13 +98,13 @@ Selecting bare `/codex:review` or `/codex:task` from slash-command autocomplete 
 
 ## Typical Flows
 
-### Ask Codex for a contextual review
+### Ask Codex for a repo-aware review
 
 ```text
 /codex:review Read plan.md and tell me what is still missing
 ```
 
-### Review the current diff
+### Review the current diff only
 
 ```text
 /codex:diff-review --base main Focus on rollback and data-loss risk
@@ -127,9 +127,10 @@ Selecting bare `/codex:review` or `/codex:task` from slash-command autocomplete 
 `pi-codex-plugin` does not implement its own Codex runtime. It:
 
 1. collects the relevant `pi` conversation context
-2. launches the local `codex` CLI as a subprocess
-3. streams partial Codex output back into the `pi` UI
-4. stores the final answer in a `CODEX ANSWER` message
+2. lets Codex inspect repository files when needed
+3. launches the local `codex` CLI as a subprocess
+4. streams partial Codex output back into the `pi` UI
+5. stores the final answer in a `CODEX ANSWER` message
 
 ## Troubleshooting
 
