@@ -1,0 +1,26 @@
+{
+  "name": "pi-codex-plugin",
+  "version": "0.1.0",
+  "description": "Use Codex from inside pi for review, task delegation, and resume flows.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "codex",
+    "extension",
+    "plugin"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/codex-bridge"
+    ]
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-tui": "*"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
