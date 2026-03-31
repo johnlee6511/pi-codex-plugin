@@ -33,25 +33,43 @@ This plugin does not bundle Codex. It launches the local `codex` binary as a sub
 
 ## Install
 
-### Local path
+By default, `pi install` installs the package into your global `pi` environment, so the commands are available across repositories.
+
+### Global install from GitHub
 
 ```bash
-pi install /absolute/path/to/pi-codex-plugin
-```
-
-### GitHub
-
-```bash
-pi install git:github.com/<your-account>/pi-codex-plugin
+pi install git:github.com/johnlee6511/pi-codex-plugin
 ```
 
 or
 
 ```bash
-pi install https://github.com/<your-account>/pi-codex-plugin
+pi install https://github.com/johnlee6511/pi-codex-plugin
 ```
 
-After install, restart `pi` or run `/reload`, then run:
+### Project-local install
+
+If you want the plugin enabled only for the current project, use `-l`:
+
+```bash
+pi install -l https://github.com/johnlee6511/pi-codex-plugin
+```
+
+### After install
+
+Make sure the local Codex CLI is available:
+
+```bash
+codex --version
+```
+
+If needed, sign in:
+
+```bash
+codex login
+```
+
+Then restart `pi` or run `/reload`, and verify:
 
 ```text
 /codex:setup
