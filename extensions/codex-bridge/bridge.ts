@@ -431,7 +431,7 @@ export async function buildSetupSummary(exec: CommandExecutor, cwd: string): Pro
 	return {
 		ok,
 		content: [
-			"## Codex Setup",
+			"## Codex Status",
 			`- CLI: ${versionText || "Unavailable"}`,
 			`- Login: ${loginStatusText || "Unavailable"}`,
 			`- Working directory: ${cwd}`,
@@ -439,7 +439,7 @@ export async function buildSetupSummary(exec: CommandExecutor, cwd: string): Pro
 			"Codex credentials are not read from the project root.",
 			"They come from your user-level Codex CLI state.",
 			!loginDetected ? "" : undefined,
-			!loginDetected ? "If login is missing, run `codex login` in a regular terminal and then retry `/codex:setup`." : undefined,
+			!loginDetected ? "If login is missing, run `codex login` in a regular terminal and then retry `/codex:status`." : undefined,
 		].filter(Boolean).join("\n"),
 	};
 }
@@ -542,16 +542,30 @@ export function registerCodexBridge(
 	pi: Pick<ExtensionAPI, "registerCommand" | "sendMessage" | "exec">,
 ): void {
 	pi.registerCommand("codex:setup", {
-		description: "Check the local Codex CLI version and login status",
+		description: "Deprecated alias for codex:status",
 		handler: async (_args, ctx) => {
 			ctx.ui.notify("Checking local Codex CLI...", "info");
-			const stopSpinner = startSpinner(ctx.ui, "Working Codex setup...");
+			const stopSpinner = startSpinner(ctx.ui, "Checking Codex status...");
 			const summary = await buildSetupSummary(
 				(command, args, options) => pi.exec(command, args, options),
 				ctx.cwd,
 			).finally(stopSpinner);
 			sendCodexMessage(pi, "setup", summary.ok, summary.content);
-			ctx.ui.notify(summary.ok ? "Codex is ready" : "Codex setup needs attention", summary.ok ? "info" : "warning");
+			ctx.ui.notify(summary.ok ? "Codex is ready" : "Codex status needs attention", summary.ok ? "info" : "warning");
+		},
+	});
+
+	pi.registerCommand("codex:status", {
+		description: "Show Codex availability and login status",
+		handler: async (_args, ctx) => {
+			ctx.ui.notify("Checking local Codex CLI...", "info");
+			const stopSpinner = startSpinner(ctx.ui, "Checking Codex status...");
+			const summary = await buildSetupSummary(
+				(command, args, options) => pi.exec(command, args, options),
+				ctx.cwd,
+			).finally(stopSpinner);
+			sendCodexMessage(pi, "setup", summary.ok, summary.content);
+			ctx.ui.notify(summary.ok ? "Codex is ready" : "Codex status needs attention", summary.ok ? "info" : "warning");
 		},
 	});
 

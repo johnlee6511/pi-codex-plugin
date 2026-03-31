@@ -11,7 +11,7 @@ This plugin is for `pi` users who want a simple way to:
 
 ## What You Get
 
-- `/codex:setup`
+- `/codex:status`
   - Check whether local Codex is installed and authenticated
 - `/codex:review`
   - Review the current situation using recent `pi` conversation context
@@ -72,7 +72,7 @@ codex login
 Then restart `pi` or run `/reload`, and verify:
 
 ```text
-/codex:setup
+/codex:status
 ```
 
 ## Usage
@@ -80,7 +80,7 @@ Then restart `pi` or run `/reload`, and verify:
 Inside `pi`:
 
 ```text
-/codex:setup
+/codex:status
 /codex:review Analyze plan.md and tell me what is still missing
 /codex:diff-review --base main Focus only on auth-related risks
 /codex:task Propose the safest refactoring direction for the current structure
@@ -133,14 +133,14 @@ Selecting bare `/codex:review` or `/codex:task` from slash-command autocomplete 
 
 ## Troubleshooting
 
-### `/codex:setup` says Codex is unavailable
+### `/codex:status` says Codex is unavailable
 
 Make sure:
 
 - `codex` is installed and available on `PATH`
 - `codex login` has completed successfully
 
-`/codex:setup` checks the user-level Codex CLI state. It does not read credentials from the current repo root.
+`/codex:status` checks the user-level Codex CLI state. It does not read credentials from the current repo root.
 
 ### I installed the plugin but do not see the commands
 
